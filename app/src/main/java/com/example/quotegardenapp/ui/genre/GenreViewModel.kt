@@ -1,13 +1,13 @@
-package com.example.quotegardenapp.ui.gallery
+package com.example.quotegardenapp.ui.genre
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class GalleryViewModel : ViewModel() {
+class GenreViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is gallery Fragment"
+        value = "This is genre Fragment"
     }
     val text: LiveData<String> = _text
 }

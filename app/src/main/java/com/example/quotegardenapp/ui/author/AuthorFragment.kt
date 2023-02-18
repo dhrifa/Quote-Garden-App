@@ -1,4 +1,4 @@
-package com.example.quotegardenapp.ui.slideshow
+package com.example.quotegardenapp.ui.author
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.quotegardenapp.databinding.FragmentSlideshowBinding
+import com.example.quotegardenapp.databinding.FragmentAuthorBinding
 
-class SlideshowFragment : Fragment() {
+class AuthorFragment : Fragment() {
 
-    private var _binding: FragmentSlideshowBinding? = null
+    private var _binding: FragmentAuthorBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,14 +22,14 @@ class SlideshowFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val slideshowViewModel =
-            ViewModelProvider(this).get(SlideshowViewModel::class.java)
+        val authorViewModel =
+            ViewModelProvider(this).get(AuthorViewModel::class.java)
 
-        _binding = FragmentSlideshowBinding.inflate(inflater, container, false)
+        _binding = FragmentAuthorBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textSlideshow
-        slideshowViewModel.text.observe(viewLifecycleOwner) {
+        val textView: TextView = binding.textAuthor
+        authorViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
         return root

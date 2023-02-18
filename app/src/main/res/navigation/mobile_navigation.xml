@@ -3,23 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_quote">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.example.quotegardenapp.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_quote"
+        android:name="com.example.quotegardenapp.ui.quote.QuoteFragment"
+        android:label="@string/menu_quote"
+        tools:layout="@layout/fragment_quote" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.quotegardenapp.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_author"
+        android:name="com.example.quotegardenapp.ui.author.AuthorFragment"
+        android:label="@string/menu_author"
+        tools:layout="@layout/fragment_author" />
+
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.quotegardenapp.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_genre"
+        android:name="com.example.quotegardenapp.ui.genre.GenreFragment"
+        android:label="@string/menu_genre"
+        tools:layout="@layout/fragment_genre" />
 </navigation>
