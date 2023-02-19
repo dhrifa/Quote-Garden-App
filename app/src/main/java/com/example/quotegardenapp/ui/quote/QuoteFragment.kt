@@ -5,10 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import com.example.quotegardenapp.data.model.quote.QuoteModel
 import com.example.quotegardenapp.databinding.FragmentQuoteBinding
+import com.example.quotegardenapp.util.NetworkResult
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,7 +23,7 @@ class QuoteFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val quoteViewModel : QuoteViewModel by viewModels()
+    private val quoteViewModel: QuoteViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,13 +31,31 @@ class QuoteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentQuoteBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        binding.let {
 
-        val textView: TextView = binding.textQuote
-        quoteViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+           quoteViewModel.listQuotes.observe(viewLifecycleOwner){
+               when (it) {
+                   is NetworkResult.Loading -> {
+                       Toast.makeText(context, "Loading...!", Toast.LENGTH_SHORT).show()
+                   }
+                   is NetworkResult.Success -> {
+                       Toast.makeText(context, "data...!", Toast.LENGTH_SHORT).show()
+                       val textView: TextView = binding.textQuote
+                       textView.text = it.data.toString()
+                       initView(it.data)
+                   }
+                   is NetworkResult.Error -> {
+                       Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                   }
+               }
+           }
+            quoteViewModel.getQuoteList()
         }
-        return root
+        return binding.root
+    }
+
+    private fun initView(data: QuoteModel?) {
+
     }
 
     override fun onDestroyView() {
