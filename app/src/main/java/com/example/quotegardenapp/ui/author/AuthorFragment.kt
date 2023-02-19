@@ -6,9 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.quotegardenapp.databinding.FragmentAuthorBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AuthorFragment : Fragment() {
 
     private var _binding: FragmentAuthorBinding? = null
@@ -17,14 +20,12 @@ class AuthorFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private val authorViewModel:AuthorViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val authorViewModel =
-            ViewModelProvider(this).get(AuthorViewModel::class.java)
-
         _binding = FragmentAuthorBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
