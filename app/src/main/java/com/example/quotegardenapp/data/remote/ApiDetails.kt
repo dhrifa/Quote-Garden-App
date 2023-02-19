@@ -6,7 +6,7 @@ import com.example.quotegardenapp.data.model.quote.QuoteModel
 import retrofit2.Response
 import retrofit2.http.GET
 
-interface ApiDetail {
+interface ApiDetails {
 
     @GET(ApiReferences.QUOTES)
     suspend fun getQuotes(): Response<QuoteModel>
