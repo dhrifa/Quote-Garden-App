@@ -16,9 +16,10 @@ private const val TAG = "AuthorViewModel"
 @HiltViewModel
 class AuthorViewModel @Inject constructor(
  private val  repository: Repository
+
 ) : ViewModel() {
-    private var _listAuthors = MutableLiveData<NetworkResult<AuthorModel>>()
-    val listAuthors: LiveData<NetworkResult<AuthorModel>> = _listAuthors
+    private var _listAuthors = MutableLiveData<NetworkResult<List<String>>>()
+    val listAuthors: LiveData<NetworkResult<List<String>>> = _listAuthors
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is author Fragment"
@@ -32,13 +33,14 @@ class AuthorViewModel @Inject constructor(
             val result = repository.getAuthors()
 
             if (result.isSuccessful) {
-                Log.d(TAG, "getQuote: $result")
-                _listAuthors.value = NetworkResult.Success(result.body()!!)
-                _text.value = result.body()?.data.toString()
+                result.body()?.data?.let {
+                    _listAuthors.value = NetworkResult.Success(it!!)
+                }
             } else {
                 _listAuthors.value = NetworkResult.Error(result.message())
-                Log.d(TAG, "getQuote: ${result}")
             }
         }
     }
+
+
 }

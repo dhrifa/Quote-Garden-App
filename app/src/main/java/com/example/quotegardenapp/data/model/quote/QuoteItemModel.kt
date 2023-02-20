@@ -3,7 +3,7 @@ package com.example.quotegardenapp.data.model.quote
 
 import com.google.gson.annotations.SerializedName
 
-data class DataModel(
+data class QuoteItemModel(
     @SerializedName("_id")
     val id: String? = "",
     @SerializedName("quoteAuthor")

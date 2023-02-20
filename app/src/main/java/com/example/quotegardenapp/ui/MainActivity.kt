@@ -2,6 +2,7 @@ package com.example.quotegardenapp.ui
 
 import android.os.Bundle
 import android.view.Menu
+import androidx.activity.viewModels
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -11,15 +12,23 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import com.example.quotegardenapp.R
+import com.example.quotegardenapp.data.model.quote.QuoteItemModel
 import com.example.quotegardenapp.databinding.ActivityMainBinding
+import com.example.quotegardenapp.ui.quote.QuoteFragment
+import com.example.quotegardenapp.ui.quote.QuoteViewModel
+import com.example.quotegardenapp.util.NetworkResult
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), Communicator {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+
+    private val quoteViewModel: QuoteViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +54,24 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        quoteViewModel.listQuotes.observe(this){
+            quoteByAuthor(it)
+        }
     }
+
+    private fun quoteByAuthor(result: NetworkResult<List<QuoteItemModel>>?) {
+//        result?.let {
+//            supportFragmentManager.beginTransaction()
+//                .replace(
+//                    androidx.navigation.fragment.R.id.nav_host_fragment_container, //DisplayVerticalFragment()
+//                    QuoteFragment.newInstance(it)
+//                )
+//                .addToBackStack(null)
+//                .commit()// =>asynchronous
+//        }
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -56,5 +82,11 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun quotesByFilter(author: String?) {
+        author?.let {
+            quoteViewModel.getQuotesByAuthor(author)
+        }
     }
 }

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class GenreModel(
     @SerializedName("data")
-    val `data`: List<String?>? = listOf(),
+    val `data`: List<String>? = listOf(),
     @SerializedName("message")
     val message: String? = "",
     @SerializedName("pagination")

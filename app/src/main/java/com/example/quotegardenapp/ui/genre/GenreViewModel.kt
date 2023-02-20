@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.quotegardenapp.data.model.genre.GenreModel
-import com.example.quotegardenapp.data.model.quote.QuoteModel
 import com.example.quotegardenapp.data.repository.Repository
 import com.example.quotegardenapp.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,8 +17,8 @@ private const val TAG = "GenreViewModel"
 class GenreViewModel @Inject constructor(
  private val  repository: Repository
 ) : ViewModel() {
-    private var _listGenres = MutableLiveData<NetworkResult<GenreModel>>()
-    val listGenres: LiveData<NetworkResult<GenreModel>> = _listGenres
+    private var _listGenres = MutableLiveData<NetworkResult<List<String>>>()
+    val listGenres: LiveData<NetworkResult<List<String>>> = _listGenres
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is genre Fragment"
@@ -33,12 +32,11 @@ class GenreViewModel @Inject constructor(
             val result = repository.getGenres()
 
             if (result.isSuccessful) {
-                Log.d(TAG, "getQuote: $result")
-                _listGenres.value = NetworkResult.Success(result.body()!!)
-                _text.value = result.body()?.data.toString()
+                result.body()?.data?.let {
+                    _listGenres.value = NetworkResult.Success(it!!)
+                }
             } else {
                 _listGenres.value = NetworkResult.Error(result.message())
-                Log.d(TAG, "getQuote: ${result}")
             }
         }
     }

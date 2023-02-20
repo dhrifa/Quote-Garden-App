@@ -15,7 +15,11 @@
         android:id="@+id/nav_author"
         android:name="com.example.quotegardenapp.ui.author.AuthorFragment"
         android:label="@string/menu_author"
-        tools:layout="@layout/fragment_author" />
+        tools:layout="@layout/fragment_author" >
+        <action
+            android:id="@+id/action_nav_author_to_nav_quote"
+            app:destination="@id/nav_quote" />
+    </fragment>
 
 
     <fragment

@@ -3,9 +3,9 @@ package com.example.quotegardenapp.data.model.quote
 
 import com.google.gson.annotations.SerializedName
 
-data class QuoteModel(
+data class QuoteResponseModel(
     @SerializedName("data")
-    val `data`: List<DataModel?>? = listOf(),
+    val `data`: List<QuoteItemModel>? = listOf(),
     @SerializedName("message")
     val message: String? = "",
     @SerializedName("pagination")
@@ -15,3 +15,5 @@ data class QuoteModel(
     @SerializedName("totalQuotes")
     val totalQuotes: Int? = 0
 )
+
+class QuoteModel : ArrayList<QuoteItemModel>()

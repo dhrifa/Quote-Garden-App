@@ -9,8 +9,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.quotegardenapp.data.model.genre.GenreModel
 import com.example.quotegardenapp.databinding.FragmentGenreBinding
+import com.example.quotegardenapp.ui.quote.QuotesAdapter
 import com.example.quotegardenapp.util.NetworkResult
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -40,9 +43,7 @@ class GenreFragment : Fragment() {
                     }
                     is NetworkResult.Success -> {
                         Toast.makeText(context, "data...!", Toast.LENGTH_SHORT).show()
-                        val textView: TextView = binding.textGenre
-                        textView.text = it.data.toString()
-                        initView(it.data)
+                        initView(it.data!!)
                     }
                     is NetworkResult.Error -> {
                         Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
@@ -54,8 +55,14 @@ class GenreFragment : Fragment() {
         return binding.root
     }
 
-    private fun initView(data: GenreModel?) {
-
+    private fun initView(data: List<String>) {
+        data?.let {
+            binding.rvGenres.layoutManager = GridLayoutManager(requireContext(),2)
+            binding.rvGenres.adapter = GenresAdapter(data) {
+//                viewModel.setSelectedPeopleIndex(it)
+                Toast.makeText(context, "${it} is clicked!", Toast.LENGTH_LONG).show()
+//                findNavController().navigate(R.id.action_navigation_people_to_peopleDetailFragment)
+            }}
     }
 
     override fun onDestroyView() {

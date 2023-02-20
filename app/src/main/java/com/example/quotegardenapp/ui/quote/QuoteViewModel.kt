@@ -1,12 +1,10 @@
 package com.example.quotegardenapp.ui.quote
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.quotegardenapp.data.model.quote.DataModel
-import com.example.quotegardenapp.data.model.quote.QuoteModel
+import com.example.quotegardenapp.data.model.quote.QuoteItemModel
 import com.example.quotegardenapp.data.repository.Repository
 import com.example.quotegardenapp.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,11 +17,11 @@ private const val TAG = "QuoteViewModel"
 class QuoteViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
-    private var _listQuotes = MutableLiveData<NetworkResult<QuoteModel>>()
-    val listQuotes: LiveData<NetworkResult<QuoteModel>> = _listQuotes
+    private var _listQuotes = MutableLiveData<NetworkResult<List<QuoteItemModel>>>()
+    val listQuotes: LiveData<NetworkResult<List<QuoteItemModel>>> = _listQuotes
 
-    private var _selectedQuotes = MutableLiveData<NetworkResult<DataModel>>()
-    val selectedQuotes: LiveData<NetworkResult<DataModel>> = _selectedQuotes
+    private var _selectedQuotes = MutableLiveData<NetworkResult<QuoteItemModel>>()
+    val selectedQuotes: LiveData<NetworkResult<QuoteItemModel>> = _selectedQuotes
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is quote Fragment"
@@ -37,12 +35,28 @@ class QuoteViewModel @Inject constructor(
             val result = repository.getQuotes()
 
             if (result.isSuccessful) {
-                Log.d(TAG, "getQuote: $result")
-                _listQuotes.value = NetworkResult.Success(result.body()!!)
+                result.body()?.data?.let {
+                    _listQuotes.value = NetworkResult.Success(it)
+                }
                 _text.value = result.body()?.data.toString()
             } else {
                 _listQuotes.value = NetworkResult.Error(result.message())
-                Log.d(TAG, "getQuote: ${result}")
+            }
+        }
+    }
+
+    fun getQuotesByAuthor(author: String) {
+
+        viewModelScope.launch {
+            _listQuotes.value = NetworkResult.Loading()
+            val result = repository.getQuotesByFilter(author)
+
+            if (result.isSuccessful) {
+                result.body()?.data?.let {
+                    _listQuotes.value = NetworkResult.Success(it)
+                }
+            } else {
+                _listQuotes.value = NetworkResult.Error(result.message())
             }
         }
     }
