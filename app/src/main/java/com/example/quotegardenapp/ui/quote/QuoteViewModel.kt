@@ -1,5 +1,6 @@
 package com.example.quotegardenapp.ui.quote
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,6 +20,9 @@ class QuoteViewModel @Inject constructor(
 ) : ViewModel() {
     private var _listQuotes = MutableLiveData<NetworkResult<List<QuoteItemModel>>>()
     val listQuotes: LiveData<NetworkResult<List<QuoteItemModel>>> = _listQuotes
+
+//    private var _listQuotesByAuthor = MutableLiveData<NetworkResult<List<QuoteItemModel>>>()
+//    val listQuotesByAuthor: LiveData<NetworkResult<List<QuoteItemModel>>> = _listQuotesByAuthor
 
     private var _selectedQuotes = MutableLiveData<NetworkResult<QuoteItemModel>>()
     val selectedQuotes: LiveData<NetworkResult<QuoteItemModel>> = _selectedQuotes
@@ -49,6 +53,7 @@ class QuoteViewModel @Inject constructor(
 
         viewModelScope.launch {
             _listQuotes.value = NetworkResult.Loading()
+            Log.d(TAG, "getQuotesByAuthor: $author")
             val result = repository.getQuotesByFilter(author)
 
             if (result.isSuccessful) {

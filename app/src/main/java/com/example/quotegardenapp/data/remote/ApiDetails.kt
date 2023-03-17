@@ -20,11 +20,9 @@ interface ApiDetails {
     suspend fun getGenres(): Response<GenreModel>
 
     //get custom query: quote, author and genre
-
     @GET(ApiReferences.QUOTES)
-    fun getQuoteByFilter(
-        @Query("author") author: String,
-//        @Query("genre") genre: String,
+    suspend fun getQuoteByFilter(
+        @Query("author") author: String //="A. J. Jacobs" // @Query("author") author: String
     ): Response<QuoteResponseModel>
 
 

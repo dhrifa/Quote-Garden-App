@@ -12,22 +12,19 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.viewModels
 import com.example.quotegardenapp.R
 import com.example.quotegardenapp.data.model.quote.QuoteItemModel
 import com.example.quotegardenapp.databinding.ActivityMainBinding
-import com.example.quotegardenapp.ui.quote.QuoteFragment
+import com.example.quotegardenapp.ui.common.Communicator
 import com.example.quotegardenapp.ui.quote.QuoteViewModel
 import com.example.quotegardenapp.util.NetworkResult
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), Communicator {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-
-    private val quoteViewModel: QuoteViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,10 +35,10 @@ class MainActivity : AppCompatActivity(), Communicator {
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
-        binding.appBarMain.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+//        binding.appBarMain.fab.setOnClickListener { view ->
+//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show()
+//        }
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
@@ -54,24 +51,7 @@ class MainActivity : AppCompatActivity(), Communicator {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-        quoteViewModel.listQuotes.observe(this){
-            quoteByAuthor(it)
-        }
     }
-
-    private fun quoteByAuthor(result: NetworkResult<List<QuoteItemModel>>?) {
-//        result?.let {
-//            supportFragmentManager.beginTransaction()
-//                .replace(
-//                    androidx.navigation.fragment.R.id.nav_host_fragment_container, //DisplayVerticalFragment()
-//                    QuoteFragment.newInstance(it)
-//                )
-//                .addToBackStack(null)
-//                .commit()// =>asynchronous
-//        }
-    }
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -82,11 +62,5 @@ class MainActivity : AppCompatActivity(), Communicator {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
-
-    override fun quotesByFilter(author: String?) {
-        author?.let {
-            quoteViewModel.getQuotesByAuthor(author)
-        }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.quotegardenapp.ui
+package com.example.quotegardenapp.ui.common
 
 interface Communicator {
     fun quotesByFilter(
