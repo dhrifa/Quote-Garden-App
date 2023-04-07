@@ -18,7 +18,7 @@ private const val TAG = "QuoteViewModel"
 class QuoteViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
-    private var _listQuotes = MutableLiveData<NetworkResult<List<QuoteItemModel>>>()
+    private var _listQuotes = MutableLiveData<NetworkResult<List<QuoteItemModel>>>()//
     val listQuotes: LiveData<NetworkResult<List<QuoteItemModel>>> = _listQuotes
 
 //    private var _listQuotesByAuthor = MutableLiveData<NetworkResult<List<QuoteItemModel>>>()
@@ -32,7 +32,9 @@ class QuoteViewModel @Inject constructor(
     }
     val text: LiveData<String> = _text
 
-    fun getQuoteList() {
+    fun getQuoteList(
+        //pagination
+    ) {
         viewModelScope.launch {
 
             _listQuotes.value = NetworkResult.Loading()

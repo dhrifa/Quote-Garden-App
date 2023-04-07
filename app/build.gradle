@@ -11,7 +11,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.quotegardenapp"
+        applicationId "com.dh.quotegardenapp"
         minSdk 22
         targetSdk 33
         versionCode 1
